@@ -64,6 +64,13 @@ Status of the `main` branch. Changes prior to the next official version change w
     silently returned an empty result instead of surfacing the crash. The crash is now detected
     independently via the `window/logMessage` notification tsserver already sends, and the
     affected wait now raises instead of reporting success (#1814)
+  - Add **CA65** (6502 / 65C02 / 65816 assembly via the [cc65](https://cc65.github.io/) toolchain) support.
+    Wraps [`ca65-ls`](https://github.com/JC-000/ca65-asm-serena-lsp), a Python + pygls language server
+    backed by the [`pogyomo/tree-sitter-ca65`](https://github.com/pogyomo/tree-sitter-ca65) grammar.
+    Supports document/workspace symbols, definition, references (scope-aware for cheap locals
+    and `.proc`/`.scope` nested labels), hover, rename + prepareRename, and `ca65 -g` driven
+    diagnostics. Optional post-link enrichment (resolved addresses + segments + symbol sizes)
+    from `ld65 --dbgfile` debug info when present.
 
 CLI:
   - Fix `project index-file` command not using only the relevant language server to index the given file (#1965)
@@ -237,6 +244,10 @@ CLI:
     `SymbolBody.get_text`. That one well-defined case is now corrected to end at the actual last
     line; any other out-of-range end position now raises `InvalidTextLocationError` instead,
     rather than guessing at a body that could be wrong #1498
+  - `LanguageServerSymbol.to_dict` now forwards the LSP `detail` field when the language server
+    provides it.  Lets language servers ship per-symbol context (e.g. ca65-ls puts post-link
+    addresses + segment + size into `detail`) without an extra hover round-trip.  No behavior
+    change for language servers that leave `detail` unset.
 
 * Language Servers:
   - Fix: Properly differentiate between raw and high-level symbol cache fingerprints, avoiding unnecessary

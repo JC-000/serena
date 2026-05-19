@@ -452,6 +452,11 @@ def _determine_disabled_language_servers() -> list[LanguageServerId]:
     if not is_macos:
         result.append(LanguageServerId.SWIFT)  # swiftly toolchain is only set up on the macOS native batch
     # 3b. Toolchain / language-server availability (the LS/compiler must be on PATH or installed).
+    # Disable CA65 tests if the cc65 toolchain isn't installed.
+    # ca65-ls itself can run without it (tree-sitter-only mode), but the test
+    # suite expects to assemble fixtures and may invoke `ca65 -g` for diagnostics.
+    if _sh.which("ca65") is None:
+        result.append(LanguageServerId.CA65)
     if _sh.which("clangd") is None:
         result.append(LanguageServerId.CPP)
     if _sh.which("ccls") is None or is_windows:  # no recent ccls binary is available for Windows
