@@ -295,6 +295,7 @@ class PreToolUseRemindAboutSymbolicToolsHook(PreToolUseHook):
     _CODE_FILE_EXTENSIONS: frozenset[str] = frozenset(
         (
             ".al",
+            ".asm",
             ".bash",
             ".c",
             ".clj",
@@ -317,6 +318,7 @@ class PreToolUseRemindAboutSymbolicToolsHook(PreToolUseHook):
             ".hpp",
             ".hs",
             ".html",
+            ".inc",
             ".java",
             ".jl",
             ".js",
@@ -328,6 +330,7 @@ class PreToolUseRemindAboutSymbolicToolsHook(PreToolUseHook):
             ".lean",
             ".lua",
             ".m",
+            ".mac",
             ".matlab",
             ".nf",
             ".php",
@@ -337,6 +340,7 @@ class PreToolUseRemindAboutSymbolicToolsHook(PreToolUseHook):
             ".r",
             ".rb",
             ".rs",
+            ".s",
             ".scala",
             ".sh",
             ".sol",
